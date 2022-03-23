@@ -37,10 +37,8 @@ const mongoosePaginate = require('mongoose-paginate-v2');
     mongooseClient.deleteModel(modelName);
   }
 
-  const m = mongooseClient.model(modelName, schema);
- 
 
-  
-  return m;
+
+  return mongooseClient.model(modelName, schema);
 
 };
