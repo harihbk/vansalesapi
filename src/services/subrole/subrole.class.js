@@ -7,7 +7,7 @@ exports.Subrole = class Subrole extends Service {
     this.app = app;
   }
 
-  async find(name,params){
+  async find(name){
     const { page , limit } = name.query
     const sub = await super.find({
       query: {
@@ -21,5 +21,4 @@ exports.Subrole = class Subrole extends Service {
     });
     return {...sub, ...{ page : page } }
   }
-
 };
