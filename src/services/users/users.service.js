@@ -15,16 +15,31 @@ module.exports = function (app) {
     Model: createModel(app),
     whitelist: ['$populate'],
     //paginate: app.get('paginate'),
-    paginate:  {
-      default: -1,
-      max: 30
-    }
+    paginate: false
   };
 
   // Initialize our service with any options it requires
   app.use('/users', new Users(options, app));
   app.use('/_users', new CustomUsers(options, app));
- 
+
+
+
+  app.get('/unassignedusers', async (req, res) => {
+    let role = req.query.role;
+   let g= app.service('truck').Model
+   let gg = await g.find();
+   let hh = gg.map(e=>(
+    e.users
+   ));
+
+   let users = app.service('users').Model
+   let hn = await users.find(
+     { "_id": { "$nin": hh }}
+     ).where("role").equals(role)
+
+  	res.send(hn);
+  });
+
   // Get our initialized service so that we can register hooks
   const service = app.service('users')
 

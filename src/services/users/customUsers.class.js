@@ -11,13 +11,13 @@ exports.CustomUsers = class CustomUsers extends Service {
     }
 
     async find(data,params){
-     
+
         let limit = parseInt(data.query.limit);
         let skip = data.query.page * limit;
         let page = data.query.page;
         const users = this.app.service('users').Model;
 
-       let obj = 
+       let obj =
        [
          {
            $project : {
@@ -44,8 +44,10 @@ exports.CustomUsers = class CustomUsers extends Service {
         let cnt = await users.aggregate(obj);
         let h = { ...{page : parseInt(page) , total :  cnt.length} , ...{data:hn}}
         return h;
-  
+
 
     }
-  
+
+
+
 };
