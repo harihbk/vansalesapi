@@ -49,6 +49,7 @@
     "@feathersjs/feathers": "^4.5.12",
     "@feathersjs/socketio": "^4.5.13",
     "compression": "^1.7.4",
+    "core-util-is": "^1.0.3",
     "cors": "^2.8.5",
     "feathers-custom-methods": "^0.0.2",
     "feathers-findone": "^1.0.2",
@@ -57,7 +58,9 @@
     "feathers-populate-hook": "^0.5.3",
     "feathers-virtual-attribute-hook": "^0.0.3",
     "helmet": "^5.0.2",
+    "mongoose": "^6.2.10",
     "mongoose-paginate-v2": "^1.6.3",
+    "nvm": "0.0.4",
     "serve-favicon": "^2.5.0",
     "winston": "^3.6.0"
   }
