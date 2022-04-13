@@ -28,7 +28,9 @@ module.exports = function (app) {
 
 
   app.get('/unassignedusers', async (req, res) => {
-    let role = req.query.role;
+
+
+   let role = req.query.role;
    let g= app.service('truck').Model
    let gg = await g.find();
    let hh = gg.map(e=>(
@@ -36,9 +38,22 @@ module.exports = function (app) {
    ));
 
    let users = app.service('users').Model
-   let hn = await users.find(
-     { "_id": { "$nin": hh }}
-     ).where("role").equals(role)
+   console.log(hh);
+   let hn = await users.aggregate([
+     {
+      $match : { '_id' : { "$nin" : hh} }
+     },{
+       $lookup : {
+         from : 'roles',
+         localField : 'role',
+         foreignField : '_id',
+         "as" : "roled",
+       }
+     },
+     {
+       $match : { "roled.slug" : { "$eq" : 'driver' } }
+     }
+   ])
 
   	res.send(hn);
   });
