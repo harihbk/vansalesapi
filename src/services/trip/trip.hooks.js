@@ -6,7 +6,7 @@ var  populate  = require('feathers-populate-hook');
 
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [ ],
     find: [],
     get: [],
     create: [],
