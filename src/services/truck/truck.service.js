@@ -63,7 +63,7 @@ module.exports = function (app) {
 
     let loadman = await users.aggregate([
       {
-       $match : { '_id' : { "$nin" : driverids} }
+       $match : { '_id' : { "$nin" : loadmanids} }
       },{
         $lookup : {
           from : 'roles',
