@@ -22,7 +22,7 @@ class MyLocalStrategy extends LocalStrategy {
 
     const list = Array.isArray(result) ? result : result.data;
 
-   if(list[0].role.slug != 'admin'){
+   if(list[0].role.slug == 'admin'){
     throw new NotAuthenticated(errorMessage);
    }
 
@@ -55,6 +55,6 @@ module.exports = app => {
   authentication.register('jwt', new JWTStrategy());
   authentication.register('local', new MyLocalStrategy());
 
-  app.use('/authentication', authentication);
+  app.use('/login', authentication);
   app.configure(expressOauth());
 };
