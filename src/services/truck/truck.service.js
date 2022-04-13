@@ -41,8 +41,42 @@ module.exports = function (app) {
 
 
     //driver role
-    const driver = await users.find({ "_id": { "$nin": driverids } }).where('role').equals('623fd90da438abd7c3cd675e')
-    const loadman = await users.find({ "_id": { "$nin": loadmanids } }).where('role').equals('623fd900a438abd7c3cd6730')
+   // const driver = await users.find({ "_id": { "$nin": driverids } }).where('role').equals('623fd90da438abd7c3cd675e')
+
+    let driver = await users.aggregate([
+      {
+       $match : { '_id' : { "$nin" : driverids} }
+      },{
+        $lookup : {
+          from : 'roles',
+          localField : 'role',
+          foreignField : '_id',
+          "as" : "roled",
+        }
+      },
+      {
+        $match : { "roled.slug" : { "$eq" : 'driver' } }
+      }
+    ])
+
+   // const loadman = await users.find({ "_id": { "$nin": loadmanids } }).where('role').equals('623fd900a438abd7c3cd6730')
+
+    let loadman = await users.aggregate([
+      {
+       $match : { '_id' : { "$nin" : driverids} }
+      },{
+        $lookup : {
+          from : 'roles',
+          localField : 'role',
+          foreignField : '_id',
+          "as" : "roled",
+        }
+      },
+      {
+        $match : { "roled.slug" : { "$eq" : 'loadman' } }
+      }
+    ])
+
 
       var data={};
       data.truck = _truck;
