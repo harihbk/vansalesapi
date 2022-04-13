@@ -8,6 +8,9 @@ process.on('unhandledRejection', (reason, p) =>
   logger.error('Unhandled Rejection at: Promise ', p, reason)
 );
 
-server.on('listening', () =>
+server.on('listening', () =>{
+  console.log('Feathers application started on http://%s:%d', app.get('host'), port)
   logger.info('Feathers application started on http://%s:%d', app.get('host'), port)
+
+}
 );
