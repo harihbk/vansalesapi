@@ -3,11 +3,7 @@ const { Users } = require('./users.class');
 const createModel = require('../../models/users.model');
 const hooks = require('./users.hooks');
 const { CustomUsers } = require('./customUsers.class');
-const fservice   = require('feathers-mongoose');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const { NotAuthenticated, NotFound } = require('@feathersjs/errors');
-const { pick } = require('lodash');
+
 
 // const mongoose = require('mongoose');
 // const service = require('feathers-mongoose');
