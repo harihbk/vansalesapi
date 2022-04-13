@@ -18,6 +18,9 @@ const channels = require('./channels');
 
 const authentication = require('./authentication');
 
+const otherlogin = require('./otherlogin');
+
+
 const mongoose = require('./mongoose');
 
 
@@ -55,6 +58,7 @@ app.configure(mongoose);
 // Configure other middleware (see `middleware/index.js`)
 app.configure(middleware);
 app.configure(authentication);
+app.configure(otherlogin)
 // Set up our services (see `services/index.js`)
 app.configure(services);
 // Set up event channels (see channels.js)
