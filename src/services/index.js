@@ -9,6 +9,7 @@ const trip = require('./trip/trip.service.js');
 const customer = require('./customer/customer.service.js');
 const order = require('./order/order.service.js');
 const orderitem = require('./orderitem/orderitem.service.js');
+const designation = require('./designation/designation.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users);
@@ -22,5 +23,6 @@ module.exports = function (app) {
   app.configure(customer);
   app.configure(order);
   app.configure(orderitem);
+  app.configure(designation);
 };
  

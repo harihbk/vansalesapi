@@ -33,6 +33,14 @@ exports.CustomUsers = class CustomUsers extends Service {
          }
         },
         {
+          $lookup : {
+            from : 'designations',
+            localField : 'designation',
+            foreignField : '_id',
+            as : "designation"
+          }
+        },
+        {
            $match: {
                'role.slug' : {
                  $nin : ['admin']

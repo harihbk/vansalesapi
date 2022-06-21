@@ -67,16 +67,18 @@ module.exports = function (app) {
       e.loadman
     ))
 
-    const _truck = await truck.find({ "_id": { "$nin": trip_ids } })
+   // const _truck = await truck.find({ "_id": { "$nin": trip_ids } })
+    const _truck = await truck.find()
 
 
     //driver role
    // const driver = await users.find({ "_id": { "$nin": driverids } }).where('role').equals('623fd90da438abd7c3cd675e')
 
     let driver = await users.aggregate([
+      // {
+      //  $match : { '_id' : { "$nin" : driverids} }
+      // },
       {
-       $match : { '_id' : { "$nin" : driverids} }
-      },{
         $lookup : {
           from : 'roles',
           localField : 'role',
@@ -92,9 +94,10 @@ module.exports = function (app) {
    // const loadman = await users.find({ "_id": { "$nin": loadmanids } }).where('role').equals('623fd900a438abd7c3cd6730')
 
     let loadman = await users.aggregate([
+      // {
+      //  $match : { '_id' : { "$nin" : loadmanids} }
+      // },
       {
-       $match : { '_id' : { "$nin" : loadmanids} }
-      },{
         $lookup : {
           from : 'roles',
           localField : 'role',

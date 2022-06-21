@@ -34,11 +34,11 @@ module.exports = function (app) {
    ));
 
    let users = app.service('users').Model
-   console.log(hh);
    let hn = await users.aggregate([
      {
       $match : { '_id' : { "$nin" : hh} }
-     },{
+     },
+     {
        $lookup : {
          from : 'roles',
          localField : 'role',

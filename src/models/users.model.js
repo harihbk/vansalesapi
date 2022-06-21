@@ -5,6 +5,8 @@
 module.exports = function (app) {
   const modelName = 'users';
   const mongooseClient = app.get('mongooseClient');
+  var mongoose = require('mongoose');
+
   const { Schema } = mongooseClient;
 //var mongoosePaginate = require('mongoose-paginate');
 const mongoosePaginate = require('mongoose-paginate-v2');
@@ -13,12 +15,11 @@ const mongoosePaginate = require('mongoose-paginate-v2');
   const schema = new mongooseClient.Schema({
     email: { type: String, unique: true,required: true, lowercase: true },
     password: { type: String,required: true, },
-    designation : { type : String },
+    designation : { type : Schema.Types.ObjectId , rel : 'designation'} ,
     empno        : { type : String },
     first_name  : { type : String ,required: true,},
     last_name  : { type : String },
     mobile_number : { type : String ,required: true,unique: true},
-    username : { type : String,required: true,unique: true },
     role : {
       type : Schema.Types.ObjectId,
       rel  : 'Role'
@@ -28,7 +29,9 @@ const mongoosePaginate = require('mongoose-paginate-v2');
     timestamps: true
   });
 
-  schema.index({ mobile_number : 1 , username : 1 },{ index : true , unique: true});
+  schema.index({ mobile_number : 1  },{ index : true , unique: true});
+  //schema.syncIndexes( {username : 0 , sparse: true} );
+
   schema.plugin(mongoosePaginate);
 
   // This is necessary to avoid model compilation errors in watch mode
@@ -37,6 +40,13 @@ const mongoosePaginate = require('mongoose-paginate-v2');
     mongooseClient.deleteModel(modelName);
   }
 
+  var Driver = mongooseClient.model('users', schema);
+  // Dropping an Index in MongoDB
+  // Driver.collection.dropIndex('username', function(err, result) {
+  //     if (err) {
+  //         console.log('Error in dropping index!', err);
+  //     }
+  // });
 
 
   return mongooseClient.model(modelName, schema);
