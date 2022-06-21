@@ -2,6 +2,7 @@
   "host": "localhost",
   "port": 3030,
   "public": "../public/",
+  "filePath" : "/uploads",
   "paginate": {
     "default": 10,
     "max": 50

@@ -12,6 +12,8 @@ module.exports = function (app) {
     loadman: { type: Schema.Types.ObjectId , rel : 'users' },
     tripid: { type: String },
     tripidcount: { type: Number },
+
+
     status: { type: Number , default : 0},
   }, {
     timestamps: true

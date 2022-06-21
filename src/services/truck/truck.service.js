@@ -5,17 +5,47 @@ const hooks = require('./truck.hooks');
 const router = require('./routee');
 const { authenticate } = require('@feathersjs/express');
 
+const multer = require('multer');
+
+// const {
+//   authenticate
+// } = require('@feathersjs/authentication').express; // getting feathers' authenticate middleware
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, 'public/uploads'), // where the files are being stored
+  filename: (_req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`) // getting the file name
+});
+const upload = multer({
+  storage,
+  limits: {
+    fieldSize: 1e+8, // Max field value size in bytes, here it's 100MB
+    fileSize: 1e+7, //  The max file size in bytes, here it's 10MB
+    files: 1
+    // READ MORE https://www.npmjs.com/package/multer#limits
+  }
+});
 
 module.exports = function (app) {
   const options = {
     Model: createModel(app),
-    paginate: app.get('paginate')
+    paginate: app.get('paginate'),
+    multi: true // allowing us to store multiple instances of the model, in the same request
+
   };
 
 
 
   // Initialize our service with any options it requires
-  app.use('/truck', new Truck(options, app));
+  app.use('/truck',
+
+  upload.single('files'), (req, _res, next) => {
+    const { method } = req;
+    if (method === 'POST' || method === 'PATCH') {
+     req.body.files = `public/uploads/${req.file.filename}`
+    }
+    next();
+  }
+
+  ,new Truck(options, app));
 
   app.use('/gettruck', async(req,res)=>{
     const truck = app.service('truck').Model

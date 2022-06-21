@@ -1,6 +1,7 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const addVirtual = require('feathers-virtual-attribute-hook')
 const { populate } = require('feathers-hooks-common');
+const dauria = require('dauria');
 
 
 
@@ -10,7 +11,7 @@ module.exports = {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [],
+    create: [ ],
     update: [],
     patch: [],
     remove: []

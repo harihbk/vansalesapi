@@ -2,16 +2,7 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 const { populate } = require('feathers-hooks-common');
 var mongoose = require('mongoose');
 
-const populateSchema = {
-  include:[
-   {
-    service: 'role',
-    nameAs: 'authorRec',
-    parentField: 'role_id',
-    childField: 'id',
-   }
-  ]
-};
+
 
 const {
   hashPassword, protect
