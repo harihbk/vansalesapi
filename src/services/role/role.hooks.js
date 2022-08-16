@@ -1,4 +1,5 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
+const harisearch = require("../rejex")
 
  const registerRole = async (context) => {
    const { result  } = context;
@@ -14,10 +15,14 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 
  }
 
+
+
 module.exports = {
   before: {
     all: [],
-    find: [],
+    find: [
+      harisearch
+    ],
     get: [],
     create: [ ],
     update: [],

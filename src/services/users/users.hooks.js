@@ -44,7 +44,26 @@ const filter = async (ctx,next) => {
 module.exports = {
   before: {
     all: [],
-    find:[],
+    find:[
+      (ctx) => {
+
+        // let query = ctx.params.query
+        // query['$elemMatch'] ={ empno: 809 }
+
+
+        // console.log(query);
+
+
+        // $lookup: {
+        //   from: "roles",
+        //   localField: "role",
+        //   foreignField: "_id",
+        //   as: "orders_info",
+        // },
+
+
+      }
+     ],
     get: [ authenticate('jwt') ],
     create: [ hashPassword('password') ],
     update: [ hashPassword('password'),  authenticate('jwt') ],
@@ -57,22 +76,28 @@ module.exports = {
       // Make sure the password field is never sent to the client
       // Always must be the last hook
       protect('password'),
+      ( context ) => {
+        const { result, app } = context;
+         if(result?.length == 1){
+         // result = `${result.first_name} ${result.last_name}`
+         // return Object.assign({},context,result )
+         } else {
+          result?.data?.map(datas => {
+            datas.fullname  =  `${datas.first_name} ${datas.last_name}`
+            return  datas
+            } )
+
+          return Object.assign({},context,result )
+         }
 
 
 
-      // populate({
-      //   schema: {
-      //    include: [{
-      //     service: 'role',
-      //     nameAs: 'role',
-      //     parentField: 'role',
-      //     childField: '_id',
 
-      //    }]
-      //   }
-      // })
+      }
     ],
     find: [
+
+
 
     ],
     get: [

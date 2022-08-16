@@ -9,6 +9,7 @@ const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
 const express = require('@feathersjs/express');
 const socketio = require('@feathersjs/socketio');
+const findOne = require('feathers-findone')
 
 
 const middleware = require('./middleware');
@@ -63,6 +64,7 @@ app.configure(otherlogin)
 app.configure(services);
 // Set up event channels (see channels.js)
 app.configure(channels);
+app.configure(findOne())
 
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());

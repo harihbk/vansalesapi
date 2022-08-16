@@ -5,21 +5,60 @@ const hooks = require('./users.hooks');
 const { CustomUsers } = require('./customUsers.class');
 
 
-// const mongoose = require('mongoose');
+ const mongoose = require('mongoose');
 // const service = require('feathers-mongoose');
 
 module.exports = function (app) {
   const options = {
     name: 'users',
     Model: createModel(app),
-    whitelist: ['$populate'],
+    whitelist: ['$populate','$match','$lookup','$elemMatch'],
     //paginate: app.get('paginate'),
-    paginate: false
+    paginate:  {
+      default: 5,
+      max: 5
+    }
   };
 
   // Initialize our service with any options it requires
   app.use('/users', new Users(options, app));
+  app.use('/getusers',async(req,res)=>{
+
+
+  const skip = req?.query?.$skip
+  console.log(req?.query);
+ const slug = await app.service('role').Model.findOne({ slug: 'admin' }).exec()
+  let query={};
+  //if(skip){
+    query = {
+      $populate: [
+        {
+        path : 'role',
+        model : 'role',
+        match: { slug: { $nin: ['admin'] } },
+      },
+      {
+        path : 'designation',
+        model : 'designation',
+      }],
+      $select : {
+        password : 0
+      },
+      role : {
+        $ne : mongoose.Types.ObjectId(slug._id)
+      },
+      $limit: 5,
+      $skip: skip,
+    }
+    console.log(req?.query);
+  const sub = await app.service('users').find({query});
+  res.send(sub);
+  });
+
+
   app.use('/_users', new CustomUsers(options, app));
+
+
 
 
 
@@ -39,12 +78,12 @@ module.exports = function (app) {
       $match : { '_id' : { "$nin" : hh} }
      },
      {
-       $lookup : {
-         from : 'roles',
-         localField : 'role',
-         foreignField : '_id',
-         "as" : "roled",
-       }
+        $lookup : {
+          from : 'roles',
+          localField : 'role',
+          foreignField : '_id',
+          "as" : "roled",
+        }
      },
      {
        $match : { "roled.slug" : { "$eq" : 'driver' } }

@@ -6,13 +6,18 @@ const { CustomRole } = require('./CustomRole.class');
 
 
 module.exports = function (app) {
+
+
   const options = {
     Model: createModel(app),
     paginate:  {
       default: 5,
       max: 5
-    }
-  };
+    },
+    whitelist: ['$text', '$search']
+    };
+
+   // console.log(app.mongooseClient);
 
   // Initialize our service with any options it requires
   app.use('/role', new Role(options, app));

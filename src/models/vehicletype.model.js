@@ -1,20 +1,18 @@
-// role-model.js - A mongoose model
+// vehicletype-model.js - A mongoose model
 //
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
 module.exports = function (app) {
-  const modelName = 'role';
+  const modelName = 'vehicletype';
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const schema = new Schema({
-    name: { type: String, required: true , unique: true , lowercase: true},
-    slug: { type: String, required: true },
-    description: { type: String},
+    vehicletype: { type: String, required: true },
+    description: { type: String }
+
   }, {
     timestamps: true
   });
-
-  schema.index({name : 'text' , slug : 'text'})
 
   // This is necessary to avoid model compilation errors in watch mode
   // see https://mongoosejs.com/docs/api/connection.html#connection_Connection-deleteModel

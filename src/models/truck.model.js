@@ -9,27 +9,29 @@ module.exports = function (app) {
   const schema = new Schema({
     truckname: { type: String, required: true },
     truckno: { type: String, required: true , unique : true},
-    trucktype: { type: String, required: true },
+    //trucktype: { type: String, required: true },
     insurance_expire: { type: Date },
 
 
-    vehicle_type: { type: String },
+    vehicle_type: { type:  Schema.Types.ObjectId , rel : 'vehicletype'},
     make: { type: String },
     model: { type: String },
     year: { type: String },
     vehicle_no: { type: String },
     plate_no: { type: String },
     owned_by: { type: String },
-   // registration_expiry: { type: Date },
+    insurance_expire: { type: Date },
+    registration_expiry: { type: Date },
+
     vehicle_color: { type: String },
-   // default_driver: { type: Schema.Types.ObjectId , rel : 'users' },
+    default_driver: { type: Schema.Types.ObjectId , rel : 'users' },
     max_load_capacity: { type: String },
     min_load_capacity: { type: String },
     max_speed: { type: String },
     files: { type: String },
 
 
-    users: { type: Schema.Types.ObjectId , rel : 'users' },
+    // users: { type: Schema.Types.ObjectId , rel : 'users' },
   }, {
     timestamps: true
   });

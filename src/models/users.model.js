@@ -10,6 +10,8 @@ module.exports = function (app) {
   const { Schema } = mongooseClient;
 //var mongoosePaginate = require('mongoose-paginate');
 const mongoosePaginate = require('mongoose-paginate-v2');
+const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
+
 //var mongoosePaginate = require('mongoose-paginate');
 
   const schema = new mongooseClient.Schema({
@@ -32,7 +34,11 @@ const mongoosePaginate = require('mongoose-paginate-v2');
   schema.index({ mobile_number : 1  },{ index : true , unique: true});
   //schema.syncIndexes( {username : 0 , sparse: true} );
 
-  schema.plugin(mongoosePaginate);
+
+
+
+schema.plugin(mongoosePaginate);
+
 
   // This is necessary to avoid model compilation errors in watch mode
   // see https://mongoosejs.com/docs/api/connection.html#connection_Connection-deleteModel

@@ -22,30 +22,42 @@ const upload = multer({
     files: 1
     // READ MORE https://www.npmjs.com/package/multer#limits
   }
-});
+}).any();
 
 module.exports = function (app) {
   const options = {
     Model: createModel(app),
-    paginate: app.get('paginate'),
-    multi: true // allowing us to store multiple instances of the model, in the same request
-
+    multi: true, // allowing us to store multiple instances of the model, in the same request
+    whitelist: ['$populate','$match'],
+    //paginate: app.get('paginate'),
+    paginate:  {
+      default: 5,
+      max: 5
+    }
   };
 
 
 
   // Initialize our service with any options it requires
-  app.use('/truck',
 
-  upload.single('files'), (req, _res, next) => {
+
+  app.use('/truck',
+  upload,
+ (req, _res, next) => {
+  //upload.single('files'),
     const { method } = req;
     if (method === 'POST' || method === 'PATCH') {
-     req.body.files = `public/uploads/${req.file.filename}`
+      //req.files for multer.any()
+      if(req.files){
+        req.body.files = `public/uploads/${req.files[0]?.path}`
+      }
     }
     next();
   }
 
   ,new Truck(options, app));
+
+
 
   app.use('/gettruck', async(req,res)=>{
     const truck = app.service('truck').Model
